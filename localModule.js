@@ -1,5 +1,53 @@
 var local = (function(){
+
 	var local = {};
+
+	/**
+     * Load locale data by users IP
+     * @example geoIP
+     * {
+     *   "longitude": 34.75,
+     *   "latitude": 31.5,
+     *   "asn": "AS8551",
+     *   "offset": "3",
+     *   "ip": "62.219.224.87",
+     *   "area_code": "0",
+     *   "continent_code": "AS",
+     *   "dma_code": "0",
+     *   "timezone": "Asia/Jerusalem",
+     *   "country_code": "IL",
+     *   "isp": "Bezeqint Internet Backbone",
+     *   "country": "Israel",
+     *   "country_code3": "ISR"
+     * }
+     */
+	local.loadGeoIP = function() {
+		var xmlhttp,
+			url = 'https://www.telize.com/geoip';
+
+	    if (window.XMLHttpRequest) {
+	        xmlhttp = new XMLHttpRequest(); // code for IE7+, Firefox, Chrome, Opera, Safari
+	    } else {
+	        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP"); // code for IE6, IE5
+	    }
+
+	    xmlhttp.onreadystatechange = function() {
+	        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+				if(xmlhttp.status == 200){
+					console.log( xmlhttp.responseText );
+				}
+				else if(xmlhttp.status == 400) {
+					console.error('There was an error 400')
+				}
+				else {
+					console.error('something else other than 200 was returned')
+				}
+	        }
+	    }
+
+	    xmlhttp.open("GET", url, true);
+	    xmlhttp.send();
+	};
 
 	/**
      * Return language code by country code
